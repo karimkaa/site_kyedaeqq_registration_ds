@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход | Messenger kyedaeqq</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css">
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.recaptcha.net/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <div id="pageLoader"></div>
+    <div class="background-animation">
+        <div class="aurora"></div>
+        <canvas id="particleCanvas"></canvas>
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
+    </div>
+
+    
+
+    <div class="container initial-hide">
+        <div class="glass-panel" id="panel">
+            
+            <!-- Login Form -->
+            <div id="loginSection" class="form-section">
+                <div class="header">
+                    <div class="icon-circle"><span class="material-symbols-outlined">lock</span></div>
+                    <h1>С возвращением</h1>
+                    <p>Войдите в свой аккаунт</p>
+                </div>
+
+                <form id="loginForm" class="form">
+                    <div class="input-group">
+                        <label for="loginEmail">Email</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">mail</span>
+                            <input type="email" id="loginEmail" placeholder="ivan@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loginPassword">Пароль</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">key</span>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <span>Войти</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>или войти через</span>
+                </div>
+
+                <div class="social-login-container">
+                    <button type="button" class="btn-social btn-google" onclick="openSocialAuth('google')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" width="18">
+                        Google
+                    </button>
+                    <button type="button" class="btn-social btn-yandex" onclick="openSocialAuth('yandex')">
+                        <span style="color:#ff0000; font-weight:bold; font-size:18px; line-height:1;">Я</span>
+                        Яндекс
+                    </button>
+                </div>
+
+                <div class="toggle-text">
+                    <a href="#" id="showForgotPassword" style="display: block; margin-bottom: 10px;">Забыли пароль?</a>
+                    Нет аккаунта? <a href="#" id="showRegister">Зарегистрироваться</a>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="registerSection" class="form-section active">
+                <div class="header">
+                    <div class="icon-circle" id="regAvatarContainer" style="cursor: pointer; position: relative; overflow: hidden; width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 15px; border: 2px solid rgba(255, 255, 255, 0.1);">
+                        <img id="regAvatarImage" src="" style="display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+                        <span class="material-symbols-outlined" id="regAvatarIcon" style="position: relative; z-index: 1;">person_add</span>
+                    </div>
+                    <h1>Создать аккаунт</h1>
+                    <p>Присоединяйтесь к нашему проекту</p>
+                </div>
+
+                <form id="registrationForm" class="form">
+                    <input type="file" id="regAvatarFile" accept="image/*" style="display: none;">
+                    <div class="input-group">
+                        <label for="regName">Имя</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">person</span>
+                            <input type="text" id="regName" placeholder="Иван Иванов" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="regEmail">Email</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">mail</span>
+                            <input type="email" id="regEmail" placeholder="ivan@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="regPassword">Пароль</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">key</span>
+                            <input type="password" id="regPassword" placeholder="••••••••" required minlength="6">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="regPasswordConfirm">Подтверждение пароля</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">key</span>
+                            <input type="password" id="regPasswordConfirm" placeholder="••••••••" required minlength="6">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="regPhone">Телефон</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">phone</span>
+                            <input type="tel" id="regPhone" placeholder="+7 (999) 000-00-00">
+                        </div>
+                    </div>
+
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" style="margin-bottom: 20px; display: flex; justify-content: center; transform: scale(0.9); transform-origin: center;"></div>
+
+                    <button type="submit" class="btn-submit">
+                        <span>Зарегистрироваться</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>или</span>
+                </div>
+
+                <div class="social-login-container">
+                    <button type="button" class="btn-social btn-google" onclick="openSocialAuth('google')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" width="18">
+                        Google
+                    </button>
+                    <button type="button" class="btn-social btn-yandex" onclick="openSocialAuth('yandex')">
+                        <span style="color:#ff0000; font-weight:bold; font-size:18px; line-height:1;">Я</span>
+                        Яндекс
+                    </button>
+                </div>
+
+                <div class="toggle-text">
+                    Уже есть аккаунт? <a href="#" id="showLogin">Войти</a>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotPasswordSection" class="form-section">
+                <div class="header">
+                    <div class="icon-circle"><span class="material-symbols-outlined">lock_reset</span></div>
+                    <h1>Восстановление пароля</h1>
+                    <p>Введите ваш email для получения кода</p>
+                </div>
+                <form id="forgotPasswordForm" class="form">
+                    <div class="input-group">
+                        <label for="forgotEmail">Email</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">mail</span>
+                            <input type="email" id="forgotEmail" placeholder="ivan@example.com" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span>Отправить код</span>
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </form>
+                <div class="toggle-text">
+                    Вспомнили пароль? <a href="#" id="showLoginFromForgot">Войти</a>
+                </div>
+            </div>
+
+            <!-- Reset Password Form -->
+            <div id="resetPasswordSection" class="form-section">
+                <div class="header">
+                    <div class="icon-circle"><span class="material-symbols-outlined">password</span></div>
+                    <h1>Новый пароль</h1>
+                    <p>Введите код из письма и новый пароль</p>
+                </div>
+                <form id="resetPasswordForm" class="form">
+                    <div class="input-group">
+                        <label for="resetCode">Код подтверждения</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">tag</span>
+                            <input type="text" id="resetCode" placeholder="123456" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="resetNewPassword">Новый пароль</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">key</span>
+                            <input type="password" id="resetNewPassword" placeholder="••••••••" required minlength="6">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span>Сменить пароль</span>
+                        <span class="material-symbols-outlined">check_circle</span>
+                    </button>
+                </form>
+                <div class="toggle-text">
+                    <a href="#" id="showLoginFromReset">Вернуться ко входу</a>
+                </div>
+            </div>
+
+            <!-- Profile Form -->
+            <div id="profileSection" class="form-section">
+                <button type="button" class="close-settings" id="closeSettingsBtn" title="Закрыть настройки" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; cursor: pointer; opacity: 0.7; transition: opacity 0.3s, transform 0.3s; z-index: 10;" onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1)';" onmouseout="this.style.opacity='0.7'; this.style.transform='scale(1)';">
+                    <span class="material-symbols-outlined" style="font-size: 32px;">close</span>
+                </button>
+                <div class="header">
+                    <div class="profile-avatar-container" id="avatarContainer">
+                        <div class="profile-avatar-preview" id="avatarPreview">
+                            <span class="material-symbols-outlined">account_circle</span>
+                        </div>
+                        <div class="avatar-overlay">
+                            <span class="material-symbols-outlined">photo_camera</span>
+                        </div>
+                        <!-- Avatar Menu -->
+                        <div class="avatar-menu" id="avatarMenu">
+                            <button type="button" id="btnViewPhoto"><span class="material-symbols-outlined">visibility</span> Просмотреть</button>
+                            <button type="button" id="btnChangePhoto"><span class="material-symbols-outlined">edit</span> Сменить</button>
+                        </div>
+                    </div>
+                    <h1 id="profileWelcome">Ваш профиль</h1>
+                    <p>Расскажите немного о себе</p>
+                </div>
+
+                <form id="profileForm" class="form">
+                    <div class="input-group" style="display:none;">
+                        <input type="file" id="profAvatarFile" accept="image/*">
+                        <input type="hidden" id="profAvatar">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="profEmail">Email</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">mail</span>
+                            <input type="email" id="profEmail" readonly style="opacity: 0.7; cursor: not-allowed;">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="profName">Имя</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">person</span>
+                            <input type="text" id="profName" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="profBirthdate">Дата рождения</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">calendar_month</span>
+                            <input type="date" id="profBirthdate">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="profPhone">Телефон</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">phone</span>
+                            <input type="tel" id="profPhone" placeholder="+7 (999) 000-00-00">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="profBio">О себе</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon" style="top:14px;">edit_note</span>
+                            <textarea id="profBio" placeholder="Я занимаюсь..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="profNewPassword">Новый пароль (если хотите изменить)</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">key</span>
+                            <input type="password" id="profNewPassword" placeholder="••••••••" minlength="6">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <span>Сохранить профиль</span>
+                        <span class="material-symbols-outlined">save</span>
+                    </button>
+                    
+                    <button type="button" class="btn-logout" id="btnLogout">
+                        Выйти из аккаунта
+                    </button>
+                </form>
+            </div>
+
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+    </div>
+
+        </div>
+    </div>
+
+    <!-- Photo Viewer Modal -->
+    <div id="photoViewerModal" class="modal-overlay">
+        <div class="viewer-content">
+            <img id="fullSizePhoto" src="" alt="Full Size">
+            <button class="close-viewer"><span class="material-symbols-outlined">close</span></button>
+        </div>
+    </div>
+
+    <!-- Cropper Modal -->
+    <div id="cropperModal" class="modal-overlay">
+        <div class="cropper-card glass-panel">
+            <div class="chat-header">
+                <h3>Обрезка фотографии</h3>
+            </div>
+            <div class="cropper-container">
+                <img id="imageToCrop" src="">
+            </div>
+            <div class="cropper-actions">
+                <button type="button" id="cancelCrop" class="btn-secondary">Отмена</button>
+                <button type="button" id="saveCrop" class="btn-submit">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messenger Interface -->
+    <div id="appInterface" class="app-interface">
+        <div class="app-sidebar">
+            <div class="sidebar-header">
+                <button class="sidebar-search-btn" id="openSearchBtn">
+                    <span class="material-symbols-outlined">search</span>
+                    Найти или начать беседу
+                </button>
+            </div>
+            
+            <div class="contacts-list" id="contactsList">
+                <!-- Users List -->
+                <div class="contacts-placeholder">Загрузка контактов...</div>
+            </div>
+
+            <div class="mini-profile" id="miniProfile">
+                <!-- Mini Profile -->
+                <div class="mini-avatar" id="miniAvatar">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </div>
+                <div class="mini-info" id="miniLogout" title="Выйти из аккаунта" style="cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
+                    <div class="mini-name" id="miniName">Имя пользователя</div>
+                    <div class="mini-status" style="color: #ef4444;">Выйти</div>
+                </div>
+                <div class="mini-actions">
+                    <button class="btn-icon" id="openSettings"><span class="material-symbols-outlined">settings</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-main">
+            <!-- Main Chat -->
+            <div id="chatWelcome" class="chat-empty-state">
+                <span class="material-symbols-outlined">forum</span>
+                <h2>Добро пожаловать</h2>
+                <p>Выберите собеседника, чтобы начать общение</p>
+            </div>
+
+            <div id="activeChat" class="active-chat" style="display:none;">
+                <div class="chat-top-bar">
+                    <div class="active-user-info">
+                        <div class="active-avatar" id="activeAvatar"></div>
+                        <div class="active-details">
+                            <h3 id="activeName">Имя собеседника</h3>
+                            <span class="status-online">В сети</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="chatHistory" class="chat-history">
+                    <!-- Messages -->
+                </div>
+
+                <div class="chat-input-container">
+                    <button class="btn-icon"><span class="material-symbols-outlined">add_circle</span></button>
+                    <input type="text" id="chatInput" placeholder="Напишите сообщение...">
+                    <button id="sendMsgBtn" class="btn-icon"><span class="material-symbols-outlined">send</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js ES modules via importmap -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <!-- Search Modal -->
+    <div class="search-modal-overlay" id="searchModal">
+        <div class="search-modal-content">
+            <div class="search-modal-header">
+                <input type="text" id="userSearchInput" placeholder="Куда отправимся?" autocomplete="off">
+            </div>
+            <div class="search-modal-results" id="userSearchResults">
+                <!-- Search Results -->
+            </div>
+            <div class="search-modal-footer">
+                <p><strong>ПОДСКАЗКА:</strong> Ищите пользователей по имени или email</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cropper.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+    <script type="module" src="script.js?v=24"></script>
+</body>
+</html>
